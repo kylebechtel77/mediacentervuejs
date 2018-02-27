@@ -22,7 +22,7 @@
                     <h5>Date: </h5>
                 </div>
                 <div class="col-3">
-                    <input type='date' class='form-control' id='dateField'></input>
+                    <input type='date' class='form-control' id='dateField' v-on:change="onDateChange"></input>
                 </div>
                 <div class="col"></div>
             </div>
@@ -48,7 +48,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/then-request/2.2.0/request.js"></script>
 
     <script>
         const periods = [{ text: '1st Period', name: '' }, { text: '2nd Period', name: '' }, { text: '3rd Period', name: '' },
@@ -105,13 +104,18 @@
             },
             methods: {
                 loadData() {
-                    // This calls the backend API to get the latest to-do items
                     var self = this;
-                    var date = this.date;
-                    //TODO::figure out how to call load data when selected
-                    $('#dateField').val(date);
+                    var date = self.date;
+
+                    $('#dateField').val(date);                    
+                    self.onDateChange(date);
+                },
+                onDateChange(){
+                    var self = this;
+                    self.date = $('#dateField').val();
+                    // This calls the backend API to get the latest to-do items
                     $.ajax({
-                        url: "https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod?date=" + date,
+                        url: "https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod?date=" + self.date,
                         type: 'GET',
                         success: function (response) {
                             self.labItems.times = response.filter((e) => e.Type == 'lab');
@@ -122,10 +126,8 @@
                         }
                     });
                 },
-
                 onSave() {
                     // This calls the backend API to create a new to-do item
-                    console.log('hi');
                     //TODO:: make this actually do that ^ via lambda funcs and dynamodb
                     var todo = {
                         title: this.newTodoTitle,
