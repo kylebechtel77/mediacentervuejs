@@ -17,19 +17,26 @@
 
     <div id="app-8">
         <div class="container">
-            <input type='date' class='form-control' id='dateField'></input>
             <div class="row">
-                <div class=".col-md-6">
+                <div class="col-2">
+                    <h5>Date: </h5>
+                </div>
+                <div class="col-3">
+                    <input type='date' class='form-control' id='dateField'></input>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col-6">
                     <checkout-item v-for="item in labItems" v-bind:checkoutItem="item" v-bind:key="item.id">
                     </checkout-item>
                 </div>
-                <div class=".col-md-6">
+                <div class="col-6">
                     <checkout-item v-for="item in libraryItems" v-bind:checkoutItem="item" v-bind:key="item.id">
                     </checkout-item>
                 </div>
             </div>
-            <!--TODO:: figure out how to call save -->
-            <button type="button" class="btn btn-primary" onclick="">Save Changes</button>
+            <button class="btn btn-primary" v-on:click="onSave">Save Changes</button>
         </div>
     </div>
 
@@ -43,29 +50,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/then-request/2.2.0/request.js"></script>
 
-    <script>    
-        const periods = [{ text: '1st Period' }, { text: '2nd Period' }, { text: '3rd Period' },
-        { text: '4th Period' }, { text: '5th Period' }, { text: '6th Period' }];
-        //I put a test name field on here to check that it does replace the value. 
-        //We should remove that and just load the names from the server, 
-        //or possibly include the name field as null, which is what vue recommends
-        const timeSlots = [{ text: '9:15', name: 'kyle' }, { text: '9:30' }, { text: '9:45' },
-        { text: '10:00' }, { text: '10:15' }, { text: '10:30' }, { text: '10:45' }, { text: '11:00' },
-        { text: '11:15' }, { text: '11:30' }, { text: '11:45' }, { text: '12:00' }, { text: '12:15' },
-        { text: '12:30' }, { text: '12:45' }, { text: '1:00' }, { text: '1:15' }, { text: '1:30' },
-        { text: '1:45' }, { text: '2:00' }, { text: '2:15' }, { text: '2:30' }, { text: '2:45' },
-        { text: '3:00' }, { text: '3:15' }, { text: '3:30' }]
-        const allDay = [{ text: 'All Day' }];
+    <script>
+        const periods = [{ text: '1st Period', name: '' }, { text: '2nd Period', name: '' }, { text: '3rd Period', name: '' },
+        { text: '4th Period', name: '' }, { text: '5th Period', name: '' }, { text: '6th Period', name: '' }];
+        
+        //We should load the names from the server, 
+        const timeSlots = [{ text: '9:15', name: 'kyle' }, { text: '9:30', name: '' }, { text: '9:45', name: '' },
+        { text: '10:00', name: '' }, { text: '10:15', name: '' }, { text: '10:30', name: '' }, { text: '10:45', name: '' }, { text: '11:00', name: '' },
+        { text: '11:15', name: '' }, { text: '11:30', name: '' }, { text: '11:45', name: '' }, { text: '12:00', name: '' }, { text: '12:15', name: '' },
+        { text: '12:30', name: '' }, { text: '12:45', name: '' }, { text: '1:00', name: '' }, { text: '1:15', name: '' }, { text: '1:30', name: '' },
+        { text: '1:45', name: '' }, { text: '2:00', name: '' }, { text: '2:15', name: '' }, { text: '2:30', name: '' }, { text: '2:45', name: '' },
+        { text: '3:00', name: '' }, { text: '3:15', name: '' }, { text: '3:30', name: '' }]
+        const allDay = [{ text: 'All Day', name: '' }];
 
         //TODO:: fix this.
         Vue.component('media-time', {
             props: ['text', 'id', 'name'],
-            template: "<div> {{ text }} : <input placeholder='your name here' v-model='name'></input></div>"
+            template: '<div class="row"><div class="col-3"> {{ text }} : </div><div class="col"> <input placeholder=" your name here" v-model="name"></input></div></div>'
         })
 
         Vue.component('checkout-item', {
             props: ['checkoutitem'],
-            template: "<div>  {{ checkoutitem.text}}" +
+            template: '<div> <h5> {{ checkoutitem.text}} </h5>' +
                 "<media-time " +
                 " v-for='item in checkoutitem.times'" +
                 " v-bind:text='item.text'" +
@@ -119,6 +125,7 @@
 
                 onSave() {
                     // This calls the backend API to create a new to-do item
+                    console.log('hi');
                     //TODO:: make this actually do that ^ via lambda funcs and dynamodb
                     var todo = {
                         title: this.newTodoTitle,
