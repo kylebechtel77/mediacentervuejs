@@ -1,28 +1,28 @@
 <template>
   <div class="container">
     <input type='date' class='form-control' id='dateField' />
-    <div class="row">
-        <div class=".col-md-6">
-          <checkout-item v-for="item in labItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
-        </div>
-        <div class=".col-md-6">
-          <checkout-item v-for="item in libraryItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
-        </div>
-      </div>
-      <button type="button" class="btn btn-primary" @onclick="save">Save Changes</button>
-    </div>
+    <b-row>
+      <b-col>
+        <checkout-block v-for="item in labItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
+      </b-col>
+      <b-col>
+        <checkout-block v-for="item in libraryItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
+      </b-col>
+    </b-row>
+    <b-button type="button" class="btn btn-primary" @onclick="save">Save Changes</b-button>
+  </div>
 </template>
 
 <script>
-import CheckoutItem from '@/components/CheckoutItem.vue';
+import CheckoutBlock from '@/components/CheckoutBlock.vue';
 
 export default {
   components: {
-    CheckoutItem,
+    CheckoutBlock,
   },
   methods: {
     save: function() {
-
+      this.$store.dispatch('onSave');
     }
   },
   name: 'MediaCenter',

@@ -1,6 +1,5 @@
 <template>
     <div>  
-        {{ checkoutItem.text}}
         <media-time v-for='item in checkoutItem.times'
             v-bind:text='item.text'
             v-bind:name='item.name'
@@ -15,7 +14,7 @@ import MediaTime from '@/components/MediaTime.vue';
 export default {
   name: 'CheckoutItem',
   props: {
-    checkoutItem: Map,
+    checkoutItem: Object,
   },
   components: {
     MediaTime,

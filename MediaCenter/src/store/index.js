@@ -16,6 +16,18 @@ const timeSlots = [{ text: '9:15', name: 'kyle' }, { text: '9:30' }, { text: '9:
 { text: '3:00' }, { text: '3:15' }, { text: '3:30' }]
 
 const allDay = [{ text: 'All Day' }]
+const initialLabTimes = [
+  { id: 'lab502', text: 'Labs 502', times: periods },
+  { id: 'lab504', text: 'Labs 504', times: periods },
+  { id: 'lab705', text: 'Labs 705', times: periods },
+  { id: 'labcart1', text: 'Lab Cart 1 (30)', times: allDay },
+  { id: 'labcart2', text: 'Lab Cart 2 (18)', times: allDay }
+];
+
+const initialLibraryTimes = [
+  { id: 'mediacenter', text: 'Media Center', times: timeSlots },
+  { id: 'greenscreen', text: 'Green Screen', times: periods }
+]
 
 export default new Vuex.Store({
   state: {
@@ -23,34 +35,26 @@ export default new Vuex.Store({
     allDay,
     periods,
     timeSlots,
-    labItems: [
-      { id: 'lab502', text: 'Labs 502', times: periods },
-      { id: 'lab504', text: 'Labs 504', times: periods },
-      { id: 'lab705', text: 'Labs 705', times: periods },
-      { id: 'labcart1', text: 'Lab Cart 1 (30)', times: allDay },
-      { id: 'labcart2', text: 'Lab Cart 2 (18)', times: allDay }
-    ],
-    libraryItems: [
-      { id: 'mediacenter', text: 'Media Center', times: timeSlots },
-      { id: 'greenscreen', text: 'Green Screen', times: periods }
-    ]
+    labItems: initialLabTimes,
+    libraryItems: initialLibraryTimes
   },
   getters: {
   },
   mutations: {
     updateLabItems (state, payload) {
-      state.labItems.times = payload.times
+      state.labItems = payload.times || initialLabTimes;
     },
     updateLibraryItems (state, payload) {
-      state.libraryItems.times = payload.times
+      state.libraryItems = payload.times || initialLibraryTimes;
     }
   },
   actions: {
     async loadData (ctx) {
-      const self = this
-      const res = await axios.get(`https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod?date=${self.date}`)
-      ctx.commit('updateLabItems', res.data.filter(e => e.Type === 'lab'))
-      ctx.commit('updateLibraryItems', res.data.filter(e => e.Type === 'library'))
+      const self = this;
+      const res = await axios.get(`https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod?date=${self.date}`);
+      
+      ctx.commit('updateLabItems', res.data.filter(e => e.Type === 'lab'));
+      ctx.commit('updateLibraryItems', res.data.filter(e => e.Type === 'library'));
     },
     async onSave () {
       // This calls the backend API to create a new to-do item
