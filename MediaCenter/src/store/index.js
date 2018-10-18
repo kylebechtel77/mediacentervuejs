@@ -31,6 +31,7 @@ const initialLibraryTimes = [
 
 export default new Vuex.Store({
   state: {
+    username: null,
     date: moment().format('YYYY-MM-DD'),
     allDay,
     periods,
