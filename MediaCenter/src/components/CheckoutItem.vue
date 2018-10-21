@@ -1,9 +1,10 @@
 <template>
     <div>  
         <media-time v-for='item in checkoutItem.times'
-            v-bind:text='item.text'
-            v-bind:name='item.name'
-            v-bind:key='item.id'>
+            :text='item.text'
+            :name='item.name'
+            :id='item.id'
+            :key='item.id'>
         </media-time>
     </div>
 </template>

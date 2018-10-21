@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const periods = [{ text: '1st Period' }, { text: '2nd Period' }, { text: '3rd Period' },
 { text: '4th Period' }, { text: '5th Period' }, { text: '6th Period' }]
 
-const timeSlots = [{ text: '9:15', name: 'kyle' }, { text: '9:30' }, { text: '9:45' },
+const timeSlots = [{ text: '9:15', id: 'histupid' }, { text: '9:30' }, { text: '9:45' },
 { text: '10:00' }, { text: '10:15' }, { text: '10:30' }, { text: '10:45' }, { text: '11:00' },
 { text: '11:15' }, { text: '11:30' }, { text: '11:45' }, { text: '12:00' }, { text: '12:15' },
 { text: '12:30' }, { text: '12:45' }, { text: '1:00' }, { text: '1:15' }, { text: '1:30' },
@@ -16,7 +16,7 @@ const timeSlots = [{ text: '9:15', name: 'kyle' }, { text: '9:30' }, { text: '9:
 { text: '3:00' }, { text: '3:15' }, { text: '3:30' }]
 
 const allDay = [{ text: 'All Day' }]
-const initialLabTimes = [
+let initialLabTimes = [
   { id: 'lab502', text: 'Labs 502', times: periods },
   { id: 'lab504', text: 'Labs 504', times: periods },
   { id: 'lab705', text: 'Labs 705', times: periods },
@@ -24,10 +24,21 @@ const initialLabTimes = [
   { id: 'labcart2', text: 'Lab Cart 2 (18)', times: allDay }
 ];
 
-const initialLibraryTimes = [
+let initialLibraryTimes = [
   { id: 'mediacenter', text: 'Media Center', times: timeSlots },
   { id: 'greenscreen', text: 'Green Screen', times: periods }
 ]
+
+initialLabTimes.forEach((items) => {
+  items.times.forEach((time, i) => {
+    time.id = `lab-${items.id}-${i}`;
+  })
+});
+initialLibraryTimes.forEach((items) => {
+  items.times.forEach((time, i) => {
+    time.id = `library-${items.id}-${i}`;
+  })
+});
 
 export default new Vuex.Store({
   state: {
@@ -43,23 +54,55 @@ export default new Vuex.Store({
   },
   mutations: {
     updateLabItems (state, payload) {
-      state.labItems = payload.times || initialLabTimes;
+      state.labItems = payload || initialLabTimes;
     },
     updateLibraryItems (state, payload) {
-      state.libraryItems = payload.times || initialLibraryTimes;
+      state.libraryItems = payload || initialLibraryTimes;
+    },
+    updateDate (state, payload) {
+      state.date = moment(payload).format('YYYY-MM-DD');
+    },
+    updateName (state, payload) {
+      state.labItems.forEach((items, i) => {
+        items.times.forEach((time, j) => {
+          if(time.id == payload.id)
+            state.labItems[i].times[j].name = payload.name;
+        })
+      });
+      state.libraryItems.forEach((items, i) => {
+        items.times.forEach((time, j) => {
+          if(time.id == payload.id)
+            state.libraryItems[i].times[j].name = payload.name;
+        })
+      });
     }
   },
   actions: {
     async loadData (ctx) {
       const self = this;
-      const res = await axios.get(`https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod?date=${self.date}`);
-      
-      ctx.commit('updateLabItems', res.data.filter(e => e.Type === 'lab'));
-      ctx.commit('updateLibraryItems', res.data.filter(e => e.Type === 'library'));
+      const res = await axios.get(`https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod?date=${self.state.date}`);
+
+      if(res.data && res.data[0] && res.data[0].items){
+        ctx.commit('updateLabItems', res.data[0].items.labItems);
+        ctx.commit('updateLibraryItems', res.data[0].items.libraryItems);
+      }
+      else {
+        ctx.commit('updateLabItems');
+        ctx.commit('updateLibraryItems');
+      }
     },
     async onSave () {
       // This calls the backend API to create a new to-do item
-      // TODO:: make this actually do that ^ via lambda funcs and dynamodb
+      const self = this;
+      let data = {
+        'httpMethod':'POST',
+        'Date': self.state.date,
+        'items': {
+          'labItems': self.state.labItems,
+          'libraryItems': self.state.libraryItems
+          }        
+      };
+      const res = await axios.post(`https://9nakk1teyj.execute-api.us-east-1.amazonaws.com/prod/`, data);
     }
   }
 })

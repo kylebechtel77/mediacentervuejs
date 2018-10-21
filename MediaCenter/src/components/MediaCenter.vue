@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <input type='date' class='form-control' id='dateField' />
+  <div class="container p-5">
+    <input type='date' class='form-control' id='dateField' v-model="date" @input="dateChange" />
     <b-row>
       <b-col>
         <checkout-block v-for="item in labItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
@@ -9,7 +9,7 @@
         <checkout-block v-for="item in libraryItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
       </b-col>
     </b-row>
-    <b-button type="button" class="btn btn-primary" @onclick="save">Save Changes</b-button>
+    <b-button type="button" variant="success" class="m-2" @click="save">Save Changes</b-button>
   </div>
 </template>
 
@@ -23,6 +23,9 @@ export default {
   methods: {
     save: function() {
       this.$store.dispatch('onSave');
+    },
+    dateChange: function(event) {
+      this.$store.dispatch('loadData');
     }
   },
   name: 'MediaCenter',
@@ -30,9 +33,18 @@ export default {
     msg: String
   },
   computed: {
+    date: {
+      get: function () {
+        return this.$store.state.date;
+      },
+      set: function (newValue) {
+        this.$store.commit('updateDate', newValue);
+      }
+    },
     libraryItems () {
       return this.$store.state.libraryItems || [];
     },
+
     labItems () {
       return this.$store.state.labItems || [];
     },
