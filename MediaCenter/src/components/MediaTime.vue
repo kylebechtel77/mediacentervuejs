@@ -1,12 +1,10 @@
 <template>
     <b-row>
       <b-form inline>
-        <b-col>
-          <label for="inlineFormInputName2">{{ text }} :</label>
-        </b-col>
-        <b-col>
-         <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder='your name here' v-model='displayName' />
-        </b-col>
+        <div class="d-flex">
+          <label class="mr-auto" style="width:100px" for="inlineFormInputName2">{{ text }} :</label>
+          <b-input id="inlineFormInputName2" placeholder='your name here' v-model='displayName' />
+        </div>
       </b-form>
     </b-row>
 </template>
