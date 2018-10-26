@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <b-button ref="signinBtn" class="btn-sign-in">Sign In</b-button>
+  <div class="login-view">
+    <div class="login-widget centered">
+      <h2>East Paulding Middle School</h2>
+      <h3>Media Center</h3>
+      <b-button ref="signinBtn" class="btn-sign-in">Sign In</b-button>
+    </div>
   </div>
 </template>
 
@@ -37,3 +41,31 @@ export default {
 }
 
 </script>
+
+<style scoped lang="scss">
+  .login-view {
+    background: #317394;
+    background-image: url("/login-image.JPG");
+    min-height: 1000px;
+  }
+  .login-widget {
+    width: 500px;
+    height: 150px;
+    background: white;
+    -webkit-box-shadow: 0px 0px 20px 0px #ccc;
+-moz-box-shadow: 0px 0px 20px 0px #ccc;
+box-shadow: 0px 0px 20px 0px #ccc;
+  }
+  .btn-sign-in {
+    position: absolute;
+    left: 42%;
+    bottom: 10%;
+  }
+  .centered {
+    position: fixed;
+    top: 50%;
+    left: 40%;
+    margin-top: -50px;
+    margin-left: -100px;
+  }
+</style>
