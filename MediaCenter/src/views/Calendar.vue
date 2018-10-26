@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <MediaCenter/>
+  <div class="calendar">
+    Coming soon if requested.
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import MediaCenter from '@/components/MediaCenter.vue';
 
 export default {
-  name: 'home',
+  name: 'calendar',
   created (){
     this.$store.dispatch('loadData');
   },

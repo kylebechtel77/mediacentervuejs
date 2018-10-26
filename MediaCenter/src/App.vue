@@ -1,13 +1,38 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" v-if="userNameExists">
       <router-link to="/">Home</router-link> |
       <router-link to="/calendar">Calendar</router-link> |
       <router-link to="/tiles">Tiles</router-link>
+      <router-view/>
     </div>
-    <router-view/>
+    <div v-else>
+      <Login></Login>
+    </div>
   </div>
 </template>
+
+<script>
+import Login from '@/views/Login.vue';
+export default {
+  name: 'main view',
+  components: {
+    Login,
+  },
+  computed: {
+    userNameExists: function () {
+      if(!this.$store.state.username){
+        if(window.location.href == 'http://localhost:8080/'){
+          this.$store.state.username = 'Kyle Bechtel';
+          return true;
+        }
+        return false;
+      }
+      return true;
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
