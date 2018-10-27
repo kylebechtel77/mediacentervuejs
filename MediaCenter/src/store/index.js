@@ -17,16 +17,16 @@ const timeSlots = [{ text: '9:15', id: 'histupid' }, { text: '9:30' }, { text: '
 
 const allDay = [{ text: 'All Day' }]
 let initialLabTimes = [
-  { id: 'lab502', text: 'Labs 502', times: periods },
-  { id: 'lab504', text: 'Labs 504', times: periods },
-  { id: 'lab705', text: 'Labs 705', times: periods },
-  { id: 'labcart1', text: 'Lab Cart 1 (30)', times: allDay },
-  { id: 'labcart2', text: 'Lab Cart 2 (18)', times: allDay }
+  { id: 'lab502', text: 'Labs 502', times: JSON.parse(JSON.stringify(periods)) },
+  { id: 'lab504', text: 'Labs 504', times: JSON.parse(JSON.stringify(periods)) },
+  { id: 'lab705', text: 'Labs 705', times: JSON.parse(JSON.stringify(periods)) },
+  { id: 'labcart1', text: 'Lab Cart 1 (30)', times: JSON.parse(JSON.stringify(allDay)) },
+  { id: 'labcart2', text: 'Lab Cart 2 (18)', times: JSON.parse(JSON.stringify(allDay)) }
 ];
 
 let initialLibraryTimes = [
-  { id: 'mediacenter', text: 'Media Center', times: timeSlots },
-  { id: 'greenscreen', text: 'Green Screen', times: periods }
+  { id: 'mediacenter', text: 'Media Center', times: JSON.parse(JSON.stringify(timeSlots)) },
+  { id: 'greenscreen', text: 'Green Screen', times: JSON.parse(JSON.stringify(periods)) }
 ]
 
 initialLabTimes.forEach((items) => {
@@ -44,9 +44,6 @@ export default new Vuex.Store({
   state: {
     username: null,
     date: moment().format('YYYY-MM-DD'),
-    allDay,
-    periods,
-    timeSlots,
     labItems: initialLabTimes,
     libraryItems: initialLibraryTimes
   },

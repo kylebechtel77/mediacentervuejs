@@ -37,15 +37,8 @@ export default {
     }
   },
   methods: {
-    async submit() {
-      // try {
-      // let url = `/Exchange/api/qacc/GeneratePreviewComparisonReport?liveFirmId=${payload.liveFirm}&dummyFirmId=${payload.dummyFirm}&asOfDate=${payload.date}`;
-      // let res = await axios({url, method: 'POST', data: payload, responseType: 'blob'});
-      // // res.data has the valuable info in it. Do with it what we need.
-      // } catch (err) {
-      // alert(JSON.stringify(err)); // Invest in better logging? Bootstrap does error alerts. See the ColumnMappingModal
-      // }
-      this.$state.dispatch('onSave');
+    submit() {
+      this.$store.dispatch('onSave');
       this.hideModal();
     },
     hideModal() {

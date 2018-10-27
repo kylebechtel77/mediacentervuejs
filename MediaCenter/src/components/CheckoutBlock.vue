@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
-    {{ checkoutItem.text}}
+  <b-container class="m-2">
+    <b>{{ checkoutItem.text}}</b>
     <checkout-item v-bind:checkoutItem="checkoutItem" v-bind:key="checkoutItem.id" />
-  </div>
+  </b-container>
 </template>
 
 <script>

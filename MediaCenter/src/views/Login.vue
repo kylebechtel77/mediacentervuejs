@@ -45,13 +45,17 @@ export default {
 <style scoped lang="scss">
   .login-view {
     background: #317394;
-    background-image: url("/login-image.JPG");
+    background-image: url("../assets/library.png");
+    background-repeat: no-repeat;
+    background-size: cover;
     min-height: 1000px;
   }
   .login-widget {
     width: 500px;
     height: 150px;
-    background: white;
+    background: black;
+    color: white;
+    padding-top: 5px;
     -webkit-box-shadow: 0px 0px 20px 0px #ccc;
 -moz-box-shadow: 0px 0px 20px 0px #ccc;
 box-shadow: 0px 0px 20px 0px #ccc;

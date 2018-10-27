@@ -15,7 +15,7 @@
 <script>
 import Login from '@/views/Login.vue';
 export default {
-  name: 'main view',
+  name: 'main-view',
   components: {
     Login,
   },
