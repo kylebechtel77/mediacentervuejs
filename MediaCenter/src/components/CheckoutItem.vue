@@ -1,5 +1,5 @@
 <template>
-    <div>  
+    <div class="ml-auto mr-auto">  
         <media-time v-for='item in checkoutItem.times'
             :text='item.text'
             :name='item.name'

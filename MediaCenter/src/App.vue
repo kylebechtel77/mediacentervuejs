@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <div id="nav" v-if="userNameExists">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/calendar">Calendar</router-link> |
-      <router-link to="/tiles">Tiles</router-link>
+      <router-link to="/">Home</router-link>
       <router-view/>
     </div>
     <div v-else>

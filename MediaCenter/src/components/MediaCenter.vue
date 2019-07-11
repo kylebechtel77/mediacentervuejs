@@ -8,6 +8,9 @@
       <b-col>
         <checkout-block v-for="item in libraryItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
       </b-col>
+      <b-col>
+        <checkout-block v-for="item in collabItems" v-bind:checkoutItem="item" v-bind:key="item.id" />
+      </b-col>
     </b-row>
     <b-button type="button" variant="success" class="m-2" @click="save">Save Changes</b-button>
     <b-alert :show="dismissCountDown"
@@ -66,6 +69,10 @@ export default {
 
     labItems () {
       return this.$store.state.labItems || [];
+    },
+    
+    collabItems () {
+      return this.$store.state.collabItems || [];
     },
   }
 }
